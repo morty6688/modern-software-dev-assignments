@@ -1,0 +1,22 @@
+{
+  "$schema": "https://mimo.xiaomi.com/mimocode/config.json",
+  "model": "mimo-capture/mimo-v2.6-pro",
+  "small_model": "mimo-capture/mimo-v2.6-pro",
+  "provider": {
+    "mimo-capture": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "MiMo Capture",
+      "options": {
+        "baseURL": "http://127.0.0.1:58888/v1",
+        "headers": {
+          "api-key": "{env:MIMO_API_KEY}"
+        }
+      },
+      "models": {
+        "mimo-v2.6-pro": {
+          "name": "MiMo V2.6 Pro"
+        }
+      }
+    }
+  }
+}

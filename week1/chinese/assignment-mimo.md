@@ -30,7 +30,7 @@
 **1. 安装 mitmproxy：**
 
 - **macOS**：`brew install --cask mitmproxy`。
-- **Windows**：运行 [mitmproxy.org](https://mitmproxy.org/) 提供的安装程序，它会将 `mitmweb` 加入 `PATH`。
+- **Windows**：运行 [mitmproxy.org](https://mitmproxy.org/) 提供的安装程序，它会将 `mitmweb` 加入 `PATH`（或者使用scoop安装）。
 - **Linux 或其他任意平台**：运行 `pip install mitmproxy`；如果已创建课程 conda 环境，请在该环境中安装。
 
 **2. 以反向代理模式启动：**
@@ -74,11 +74,39 @@ mitmweb --listen-host 127.0.0.1 --listen-port 58888 --web-open-browser --mode re
 
 > ⚠️ **只在实验项目中设置本地代理地址，不要写入全局 MiMo 配置。** 否则，其他会话也可能进入捕获范围，并在 `mitmweb` 停止后无法正常调用。不要把真实 API Key 写入项目配置或报告。
 
-**4. 验证**：在实验仓库中启动一个新会话：
+**4. 验证**：可以将密钥保存在实验目录的 `.env` 文件中，使用简单的 `KEY=value` 格式，不加引号：
 
-```text
+```dotenv
+MIMO_API_KEY=你的密钥
+```
+
+`mimocode.json` 中继续使用 `{env:MIMO_API_KEY}` 引用密钥；仓库现有 `.gitignore` 已忽略 `.env`。下面两种加载方式任选一种。
+
+**方式 A：PowerShell 手动加载。** 在实验目录（例如 `week1/lab`）中，先加载 `.env`，再启动一个新会话：
+
+```powershell
+$env:MIMO_API_KEY = (Get-Content .env -Raw | ConvertFrom-StringData).MIMO_API_KEY
 mimo --model mimo-capture/mimo-v2.6-pro
 ```
+
+**方式 B：VS Code 自动加载。** 使用 VS Code 的 Python／Python Environments 扩展，在工作区的 `.vscode/settings.json` 中合并以下设置（保留已有设置）：
+
+```json
+{
+  "python.envFile": "${workspaceFolder}/week1/lab/.env",
+  "python.terminal.useEnvFile": true
+}
+```
+
+此路径以打开本作业仓库根目录为工作区为前提；如果直接打开 `week1/lab` 或独立实验仓库，改为 `${workspaceFolder}/.env`。该功能由 VS Code 扩展在创建终端时注入环境变量，详见[官方说明](https://code.visualstudio.com/docs/python/environments)。
+
+保存设置后，**关闭旧终端并新建一个 VS Code 集成终端**，进入实验目录，再启动 MiMo；无需重复执行方式 A 中读取 `.env` 的命令：
+
+```powershell
+mimo --model mimo-capture/mimo-v2.6-pro
+```
+
+如果出现“An environment file is configured but terminal environment injection is disabled”提示，说明自动注入尚未开启，检查 `python.terminal.useEnvFile` 是否为 `true`。此设置仅用于 VS Code 集成终端；在外部 PowerShell 中仍可采用方式 A。
 
 发送一条简单请求，确认 mitmweb 中出现成功的 `POST /v1/chat/completions`，且请求体中的 `model` 为 `mimo-v2.6-pro`。再让智能体读取一个普通项目文件，确认后续请求包含工具定义、调用记录和工具结果。只有这些检查通过，才开始正式捕获；CLI 能启动或界面显示模型名称，不能单独证明流量已走代理。接口路径或载荷若与示例不同，先核对 CLI 版本和生效配置，并在报告中记录实际格式。
 

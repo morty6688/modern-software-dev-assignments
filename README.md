@@ -25,3 +25,6 @@ These steps work with Python 3.12.
    ```bash
    poetry install --no-interaction
    ```
+
+## week1 任务修改项
+为了方便中文用户完成，改用mimo-cli来重写 assignment 文档。

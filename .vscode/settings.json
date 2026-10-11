@@ -1,5 +1,7 @@
 {
   "terminal.integrated.defaultProfile.windows": "PowerShell 7",
   "python-envs.defaultEnvManager": "ms-python.python:conda",
-  "python-envs.defaultPackageManager": "ms-python.python:conda"
+  "python-envs.defaultPackageManager": "ms-python.python:conda",
+  "python.envFile": "${workspaceFolder}/week1/lab/.env",
+  "python.terminal.useEnvFile": true
 }
