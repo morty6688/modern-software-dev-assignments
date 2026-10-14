@@ -26,5 +26,11 @@ These steps work with Python 3.12.
    poetry install --no-interaction
    ```
 
-## week1 任务修改项
-为了方便中文用户完成，改用mimo-cli来重写 assignment 文档。
+## 个人作业记录
+### week1 
+为了方便中文用户，改用 mimo-cli 来重写 assignment 文档。并基于 mimo 完成 report。
+
+### week2
+将 GitHub Issues API 封装为 Python MCP Server，重点验证工具接口设计、OAuth 授权与刷新、Agent 调用行为以及可追踪日志。客户端使用 Codex CLI 进行测试。
+
+### week3
