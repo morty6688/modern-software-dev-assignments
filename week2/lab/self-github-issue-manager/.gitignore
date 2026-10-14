@@ -1,0 +1,14 @@
+.venv/
+.uv-cache/
+.env
+.mcp.json
+logs/
+*.log
+*.lock.tmp
+__pycache__/
+.pytest_cache/
+.test-tmp*/
+.ruff_cache/
+*.egg-info/
+credentials*.json
+tokens*.json
