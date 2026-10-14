@@ -1,0 +1,10 @@
+day: NaN
+month: 0
+reproduction exit=0
+characterization exit=0
+expected-contract exit=1
+invalid-valid: wholeMonthDiff=NaN; anchor=NaN; anchor2=NaN; beforeFallback=NaN; afterFallback=0; sourceHelper=0; publishedHelper=0
+valid-invalid: wholeMonthDiff=NaN; anchor=NaN; anchor2=NaN; beforeFallback=NaN; afterFallback=0; sourceHelper=0; publishedHelper=0
+absFloor(NaN)=NaN in tagged source and published package
+PASS: source helper, published helper, floating diff and diagnostic intermediate agree
+trace exit=0

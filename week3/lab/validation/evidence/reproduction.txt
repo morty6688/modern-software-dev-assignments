@@ -1,0 +1,2 @@
+day: NaN
+month: 0

@@ -1,0 +1,10 @@
+{
+  "name": "week3-baseline-bug-investigation",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "repro": "node reproduce.cjs",
+    "test": "node investigate.cjs"
+  },
+  "dependencies": { "dayjs": "1.11.23" }
+}

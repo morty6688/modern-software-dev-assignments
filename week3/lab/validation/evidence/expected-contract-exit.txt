@@ -1,0 +1,1 @@
+expected-contract exit=1

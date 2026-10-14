@@ -1,0 +1,268 @@
+FILE: package.json
+   1: {
+   2:   "name": "dayjs",
+   3:   "version": "0.0.0-development",
+   4:   "description": "2KB immutable date time library alternative to Moment.js with the same modern API ",
+   5:   "main": "dayjs.min.js",
+   6:   "types": "index.d.ts",
+   7:   "scripts": {
+   8:     "test": "cross-env TZ=Pacific/Auckland npm run test-tz && cross-env TZ=Europe/London npm run test-tz && cross-env TZ=America/Whitehorse npm run test-tz && npm run test-tz && cross-env TZ=Europe/Paris npm run test-tz-plugin && cross-env TZ=Europe/London npm run test-tz-plugin && cross-env TZ=America/New_York npm run test-tz-plugin && cross-env TZ=Pacific/Auckland npm run test-tz-plugin && jest --coverage --coverageThreshold=\"{ \\\"global\\\": { \\\"lines\\\": 100} }\"",
+   9:     "test-tz": "date && jest test/timezone.test --coverage=false",
+  10:     "test-tz-plugin": "date && jest test/plugin/timezone.test --coverage=false",
+  11:     "lint": "./node_modules/.bin/eslint src/* test/* build/*",
+  12:     "prettier": "prettier --write \"docs/**/*.md\"",
+  13:     "babel": "cross-env BABEL_ENV=build babel src --out-dir esm --copy-files && node build/esm",
+  14:     "build": "cross-env BABEL_ENV=build node build && npm run size",
+  15:     "sauce": "npx karma start karma.sauce.conf.js",
+  16:     "test:sauce": "npm run sauce -- 0 && npm run sauce -- 1 && npm run sauce -- 2  && npm run sauce -- 3",
+  17:     "size": "size-limit && gzip-size dayjs.min.js"
+  18:   },
+  19:   "pre-commit": [
+  20:     "lint"
+  21:   ],
+  22:   "size-limit": [
+  23:     {
+  24:       "limit": "2.99 KB",
+  25:       "path": "dayjs.min.js"
+  26:     }
+  27:   ],
+  28:   "jest": {
+  29:     "roots": [
+  30:       "test"
+  31:     ],
+  32:     "testRegex": "test/(.*?/)?.*test.js$",
+  33:     "testURL": "http://localhost",
+  34:     "coverageDirectory": "./coverage/",
+  35:     "collectCoverage": true,
+  36:     "collectCoverageFrom": [
+  37:       "src/**/*"
+  38:     ]
+  39:   },
+  40:   "keywords": [
+  41:     "dayjs",
+  42:     "date",
+  43:     "time",
+  44:     "immutable",
+  45:     "moment"
+  46:   ],
+  47:   "author": "iamkun",
+  48:   "license": "MIT",
+  49:   "homepage": "https://day.js.org",
+  50:   "repository": {
+  51:     "type": "git",
+  52:     "url": "https://github.com/iamkun/dayjs.git"
+  53:   },
+  54:   "devDependencies": {
+  55:     "@babel/cli": "^7.0.0-beta.44",
+  56:     "@babel/core": "^7.0.0-beta.44",
+  57:     "@babel/node": "^7.0.0-beta.44",
+  58:     "@babel/preset-env": "^7.0.0-beta.44",
+  59:     "@semantic-release/github": "^11.0.4",
+  60:     "babel-core": "^7.0.0-bridge.0",
+  61:     "babel-jest": "^22.4.3",
+  62:     "babel-plugin-external-helpers": "^6.22.0",
+  63:     "cross-env": "^5.1.6",
+  64:     "eslint": "^4.19.1",
+  65:     "eslint-config-airbnb-base": "^12.1.0",
+  66:     "eslint-plugin-import": "^2.10.0",
+  67:     "eslint-plugin-jest": "^21.15.0",
+  68:     "gzip-size-cli": "^2.1.0",
+  69:     "jasmine-core": "^2.99.1",
+  70:     "jest": "^22.4.3",
+  71:     "karma": "^2.0.2",
+  72:     "karma-jasmine": "^1.1.2",
+  73:     "karma-sauce-launcher": "^1.1.0",
+  74:     "mockdate": "^2.0.2",
+  75:     "moment": "2.29.2",
+  76:     "moment-timezone": "0.5.31",
+  77:     "ncp": "^2.0.0",
+  78:     "pre-commit": "^1.2.2",
+  79:     "prettier": "^1.16.1",
+  80:     "rollup": "^2.45.1",
+  81:     "rollup-plugin-babel": "^4.4.0",
+  82:     "rollup-plugin-terser": "^7.0.2",
+  83:     "size-limit": "^0.18.0",
+  84:     "typescript": "^2.8.3"
+  85:   }
+  86: }
+FILE: babel.config.js
+   1: module.exports = {
+   2:   env: {
+   3:     test: {
+   4:       presets: [
+   5:         '@babel/preset-env'
+   6:       ]
+   7:     },
+   8:     build: {
+   9:       presets: [
+  10:         [
+  11:           '@babel/preset-env',
+  12:           {
+  13:             modules: false,
+  14:             loose: true
+  15:           }
+  16:         ]
+  17:       ]
+  18:     }
+  19:   }
+  20: }
+FILE: src/index.js
+ 350:   diff(input, units, float) {
+ 351:     const unit = Utils.p(units)
+ 352:     const that = dayjs(input)
+ 353:     const zoneDelta = (that.utcOffset() - this.utcOffset()) * C.MILLISECONDS_A_MINUTE
+ 354:     const diff = this - that
+ 355:     const getMonth = () => Utils.m(this, that)
+ 356: 
+ 357:     let result
+ 358:     switch (unit) {
+ 359:       case C.Y:
+ 360:         result = getMonth() / 12
+ 361:         break
+ 362:       case C.M:
+ 363:         result = getMonth()
+ 364:         break
+ 365:       case C.Q:
+ 366:         result = getMonth() / 3
+ 367:         break
+ 368:       case C.W:
+ 369:         result = (diff - zoneDelta) / C.MILLISECONDS_A_WEEK
+ 370:         break
+ 371:       case C.D:
+ 372:         result = (diff - zoneDelta) / C.MILLISECONDS_A_DAY
+ 373:         break
+ 374:       case C.H:
+ 375:         result = diff / C.MILLISECONDS_A_HOUR
+ 376:         break
+ 377:       case C.MIN:
+ 378:         result = diff / C.MILLISECONDS_A_MINUTE
+ 379:         break
+ 380:       case C.S:
+ 381:         result = diff / C.MILLISECONDS_A_SECOND
+ 382:         break
+ 383:       default:
+ 384:         result = diff // milliseconds
+ 385:         break
+ 386:     }
+ 387: 
+ 388:     return float ? result : Utils.a(result)
+ 389:   }
+FILE: src/utils.js
+   1: import * as C from './constant'
+   2: 
+   3: const padStart = (string, length, pad) => {
+   4:   const s = String(string)
+   5:   if (!s || s.length >= length) return string
+   6:   return `${Array((length + 1) - s.length).join(pad)}${string}`
+   7: }
+   8: 
+   9: const padZoneStr = (instance) => {
+  10:   const negMinutes = -instance.utcOffset()
+  11:   const minutes = Math.abs(negMinutes)
+  12:   const hourOffset = Math.floor(minutes / 60)
+  13:   const minuteOffset = minutes % 60
+  14:   return `${negMinutes <= 0 ? '+' : '-'}${padStart(hourOffset, 2, '0')}:${padStart(minuteOffset, 2, '0')}`
+  15: }
+  16: 
+  17: const monthDiff = (a, b) => {
+  18:   // function from moment.js in order to keep the same result
+  19:   if (a.date() < b.date()) return -monthDiff(b, a)
+  20:   const wholeMonthDiff = ((b.year() - a.year()) * 12) + (b.month() - a.month())
+  21:   const anchor = a.clone().add(wholeMonthDiff, C.M)
+  22:   const c = b - anchor < 0
+  23:   const anchor2 = a.clone().add(wholeMonthDiff + (c ? -1 : 1), C.M)
+  24:   return +(-(wholeMonthDiff + ((b - anchor) / (c ? (anchor - anchor2) :
+  25:     (anchor2 - anchor)))) || 0)
+  26: }
+  27: 
+  28: const absFloor = n => (n < 0 ? Math.ceil(n) || 0 : Math.floor(n))
+  29: 
+  30: const prettyUnit = (u) => {
+  31:   const special = {
+  32:     M: C.M,
+  33:     y: C.Y,
+  34:     w: C.W,
+  35:     d: C.D,
+  36:     D: C.DATE,
+  37:     h: C.H,
+  38:     m: C.MIN,
+  39:     s: C.S,
+  40:     ms: C.MS,
+  41:     Q: C.Q
+  42:   }
+  43:   return special[u] || String(u || '').toLowerCase().replace(/s$/, '')
+  44: }
+  45: 
+  46: const isUndefined = s => s === undefined
+  47: 
+  48: export default {
+  49:   s: padStart,
+  50:   z: padZoneStr,
+  51:   m: monthDiff,
+  52:   a: absFloor,
+  53:   p: prettyUnit,
+  54:   u: isUndefined
+  55: }
+FILE: test/display.test.js
+ 163: describe('Difference', () => {
+ 164:   it('empty -> default milliseconds', () => {
+ 165:     const dateString = '20110101'
+ 166:     const dayjsA = dayjs()
+ 167:     const dayjsB = dayjs(dateString)
+ 168:     const momentA = moment()
+ 169:     const momentB = moment(dateString)
+ 170:     expect(dayjsA.diff(dayjsB)).toBe(momentA.diff(momentB))
+ 171:   })
+ 172: 
+ 173:   it('diff -> none dayjs object', () => {
+ 174:     const dateString = '2013-02-08'
+ 175:     const dayjsA = dayjs()
+ 176:     const dayjsB = new Date(dateString)
+ 177:     const momentA = moment()
+ 178:     const momentB = new Date(dateString)
+ 179:     expect(dayjsA.diff(dayjsB)).toBe(momentA.diff(momentB))
+ 180:   })
+ 181: 
+ 182:   it('diff -> in seconds, minutes, hours, days, weeks, months, quarters, years ', () => {
+ 183:     const dayjsA = dayjs()
+ 184:     const dayjsB = dayjs().add(1000, 'days')
+ 185:     const dayjsC = dayjs().subtract(1000, 'days')
+ 186:     const momentA = moment()
+ 187:     const momentB = moment().add(1000, 'days')
+ 188:     const momentC = moment().subtract(1000, 'days')
+ 189:     const units = ['seconds', 'minutes', 'hours', 'days', 'weeks', 'months', 'quarters', 'years']
+ 190:     units.forEach((unit) => {
+ 191:       expect(dayjsA.diff(dayjsB, unit)).toBe(momentA.diff(momentB, unit))
+ 192:       expect(dayjsA.diff(dayjsB, unit, true)).toBe(momentA.diff(momentB, unit, true))
+ 193:       expect(dayjsA.diff(dayjsC, unit)).toBe(momentA.diff(momentC, unit))
+ 194:       expect(dayjsA.diff(dayjsC, unit, true)).toBe(momentA.diff(momentC, unit, true))
+ 195:     })
+ 196:   })
+ 197: 
+ 198:   it('Special diff in month according to moment.js', () => {
+ 199:     const dayjsA = dayjs('20160115')
+ 200:     const dayjsB = dayjs('20160215')
+ 201:     const dayjsC = dayjs('20170115')
+ 202:     const momentA = moment('20160115')
+ 203:     const momentB = moment('20160215')
+ 204:     const momentC = moment('20170115')
+ 205:     const units = ['months', 'quarters', 'years']
+ 206:     units.forEach((unit) => {
+ 207:       expect(dayjsA.diff(dayjsB, unit)).toBe(momentA.diff(momentB, unit))
+ 208:       expect(dayjsA.diff(dayjsB, unit, true)).toBe(momentA.diff(momentB, unit, true))
+ 209:       expect(dayjsA.diff(dayjsC, unit)).toBe(momentA.diff(momentC, unit))
+ 210:       expect(dayjsA.diff(dayjsC, unit, true)).toBe(momentA.diff(momentC, unit, true))
+ 211:     })
+ 212:   })
+ 213: 
+ 214:   it('MonthDiff', () => {
+ 215:     expect(dayjs('2018-08-08').diff(dayjs('2018-08-08'), 'month')).toEqual(0)
+ 216:     expect(dayjs('2018-09-08').diff(dayjs('2018-08-08'), 'month')).toEqual(1)
+ 217:     expect(dayjs('2018-08-08').diff(dayjs('2018-09-08'), 'month')).toEqual(-1)
+ 218:     expect(dayjs('2018-01-01').diff(dayjs('2018-01-01'), 'month')).toEqual(0)
+ 219:   })
+ 220: 
+ 221:   it('undefined edge case', () => {
+ 222:     expect(dayjs().diff(undefined, 'seconds')).toBeDefined()
+ 223:   })
+ 224: })

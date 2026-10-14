@@ -1,0 +1,17 @@
+
+Algorithm : SHA256
+Hash      : 19DAF24B0B1950D1EEDD8727D1EED7EC15BB0BCE57FD47E297F9819661F15EDF
+Path      : D:\project\self\test\cs146s\modern-software-dev-assignments\week3\lab\vendor\dayjs-v1.11.23.zip
+
+Algorithm : SHA256
+Hash      : E16E9820D7C8A06F1D5D81B125701D291666C67C19300EBC7E0DF881D0BF108A
+Path      : D:\project\self\test\cs146s\modern-software-dev-assignments\week3\lab\vendor\dayjs-1.11.23\src\index.js
+
+Algorithm : SHA256
+Hash      : DB007CEB423A597821DC3C002EA2F8642FE12E51B6481C77F5FA4EE3BFB602B0
+Path      : D:\project\self\test\cs146s\modern-software-dev-assignments\week3\lab\vendor\dayjs-1.11.23\src\utils.js
+
+Algorithm : SHA256
+Hash      : 0198DD0B1F760CDED169C7E7FF7EAF56BC36C4C22C7C9B7C683E59437ED8700E
+Path      : D:\project\self\test\cs146s\modern-software-dev-assignments\week3\lab\node_modules\dayjs\dayjs.min.js
+

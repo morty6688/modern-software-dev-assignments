@@ -34,3 +34,4 @@ These steps work with Python 3.12.
 将 GitHub Issues API 封装为 Python MCP Server，重点验证工具接口设计、OAuth 授权与刷新、Agent 调用行为以及可追踪日志。客户端使用 Codex CLI 进行测试。
 
 ### week3
+实现 `bug-reproduction` skill。以 `iamkun/dayjs` 的发布版本 **1.11.23** 完成未使用 Skill 的基线调查，再以 Day.js 和 Lodash 的独立调查验证 Skill 的端到端工作流。

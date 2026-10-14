@@ -1,0 +1,7 @@
+{
+  "node": "v20.11.1",
+  "platform": "win32",
+  "arch": "x64",
+  "timezone": "Asia/Shanghai",
+  "dayjs": "1.11.23"
+}
