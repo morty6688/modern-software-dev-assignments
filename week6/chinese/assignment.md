@@ -40,13 +40,13 @@
 | --- | --- |
 | `app/` | Switchyard 2.3.1 版，包含 `api`（TypeScript）、`router`（Python）、`worker`（Go）、一个模拟商户，以及围绕它们逐步积累下来的配套材料。代码专为本课程编写，模型此前没有见过。 |
 | `incident/` | 为练习工单收集的某个区域的生产日志。 |
-| `task.md` | 练习工单。 |
+| `english/task.md` | 英文练习工单。练习脚本默认将它复制到临时工作区的根目录，作为 `task.md`。 |
 | `run.sh` | 运行入口，也是基线配置：通过 Claude Code 调用一次中档模型。 |
 | `rate_card.json` | 允许使用的模型及其价格。 |
 | `tools/practice.py` | 按评分器的方式运行你的配置，并输出得分和成本。 |
 | `tools/starter/` | 练习事故的评分依据，包括行为测试场景和真实的影响范围报告。`practice.py` 不会将它复制到智能体的工作区。 |
 | `tools/gateway.py` | 评分器使用的计量网关。`practice.py` 会替你启动它。 |
-| `writeup.md` | 作业报告模板。 |
+| `english/writeup.md` | 英文作业报告模板。可使用英文或中文模板起草，完成后将报告保存为 `week6/writeup.md`。 |
 
 运行服务和 `practice.py` 需要 Python 3、Node.js 24 或更新版本，以及 Go。
 

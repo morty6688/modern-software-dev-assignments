@@ -59,16 +59,16 @@ REAL_KEYS = {"anthropic": ("ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN"), "openai
 def warn_if_dirty() -> None:
     try:
         status = subprocess.run(
-            ["git", "status", "--porcelain", "--", "app", "incident", "task.md"],
+            ["git", "status", "--porcelain", "--", "app", "incident", "task.md", "english/task.md"],
             cwd=WEEK, capture_output=True, text=True, timeout=10,
         ).stdout.strip()  # fmt: skip
     except (OSError, subprocess.SubprocessError):
         return
     if status:
         print(
-            "warning: app/, incident/ or task.md has uncommitted changes. The grader replaces\n"
-            "         all three with its own copies, and practice scores inside a copy of\n"
-            "         your app/, so keep them clean.\n"
+            "warning: app/, incident/ or the starter ticket has uncommitted changes. The grader\n"
+            "         uses its own app/, incident/ and task.md. Practice scores inside a copy\n"
+            "         of your app/.\n"
         )
 
 
@@ -121,6 +121,10 @@ def one_run(index: int, args, stamp: str) -> dict:
         shutil.copytree(WEEK / "app", clean, ignore=SKIP)
         workspace = temp / "week6"
         shutil.copytree(WEEK, workspace, ignore=SKIP, symlinks=True)
+        # Match the grader's root-level task path when using the bundled starter ticket.
+        task_file = workspace / "task.md"
+        if not task_file.exists():
+            shutil.copyfile(workspace / "english" / "task.md", task_file)
         home = temp / "home"
         gateway_url = f"http://127.0.0.1:{args.port}"
 
